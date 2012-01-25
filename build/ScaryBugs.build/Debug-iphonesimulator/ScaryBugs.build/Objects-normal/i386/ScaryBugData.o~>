@@ -1,0 +1,9 @@
+/Users/j7tiger11/Documents/ScaryBugs/ScaryBugData.m:13: error: no declaration of property 'title' found in the interface
+/Users/j7tiger11/Documents/ScaryBugs/ScaryBugData.m:14: error: no declaration of property 'rating' found in the interface
+/Users/j7tiger11/Documents/ScaryBugs/ScaryBugData.m: In function '-[ScaryBugData initWithTitle:rating:]':
+/Users/j7tiger11/Documents/ScaryBugs/ScaryBugData.m:18: error: '_title' undeclared (first use in this function)
+/Users/j7tiger11/Documents/ScaryBugs/ScaryBugData.m:18: error: (Each undeclared identifier is reported only once
+/Users/j7tiger11/Documents/ScaryBugs/ScaryBugData.m:18: error: for each function it appears in.)
+/Users/j7tiger11/Documents/ScaryBugs/ScaryBugData.m:19: error: '_rating' undeclared (first use in this function)
+/Users/j7tiger11/Documents/ScaryBugs/ScaryBugData.m: In function '-[ScaryBugData dealloc]':
+/Users/j7tiger11/Documents/ScaryBugs/ScaryBugData.m:25: error: '_title' undeclared (first use in this function)
