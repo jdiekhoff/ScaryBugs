@@ -143,6 +143,16 @@
 	[self handleTouchAtLocation:touchLocation];
 }
 
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	UITouch *touch = [touches anyObject];
+	CGPoint touchLocation = [touch locationInView:self];
+	[self handleTouchAtLocation:touchLocation];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	[_delegate rateView:self ratingDidChange:_rating];
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

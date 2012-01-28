@@ -9,10 +9,12 @@
 #import "RootViewController.h"
 #import "ScaryBugDoc.h"
 #import "ScaryBugData.h"
+#import "EditBugViewController.h"
 
 
 @implementation RootViewController
 @synthesize bugs = _bugs;
+@synthesize editBugViewController = _editBugViewController;
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -27,11 +29,12 @@
 }
 
 
-/*
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+	[self.tableView reloadData];
 }
-*/
+
 /*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -139,6 +142,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+	if(_editBugViewController == nil) {
+		self.editBugViewController = [[[EditBugViewController alloc] initWithNibName:@"EditBugViewController" bundle:[NSBundle mainBundle]] autorelease];
+	}
+	ScaryBugDoc *doc = [_bugs objectAtIndex:indexPath.row];
+	_editBugViewController.bugDoc = doc;
+	[self.navigationController pushViewController:_editBugViewController animated:YES];
+	
 	/*
 	 <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
      // ...
@@ -155,7 +165,7 @@
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
+    self.editBugViewController = nil;
     // Relinquish ownership any cached data, images, etc that aren't in use.
 }
 
@@ -168,6 +178,8 @@
 - (void)dealloc {
 	[_bugs release];
 	_bugs = nil;
+	[_editBugViewController release];
+	_editBugViewController = nil;
 	
     [super dealloc];
 }
