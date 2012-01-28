@@ -11,7 +11,7 @@
 
 @class ScaryBugDoc;
 
-@interface EditBugViewController : UIViewController {
+@interface EditBugViewController : UIViewController <UITextFieldDelegate, RateViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
 	ScaryBugDoc *_bugDoc;
 	UITextField *_titleField;
 	UIImageView *_imageView;

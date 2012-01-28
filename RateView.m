@@ -20,7 +20,7 @@
 @synthesize leftMargin = _leftMargin;
 
 #pragma mark Main
--(void)baseInit {
+- (void)baseInit {
 	_imageViews = [[NSMutableArray array] retain];
 	_notSelectedImage = nil;
 	_halfSelectedImage = nil;
@@ -41,14 +41,14 @@
     return self;
 }
 
--(id)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)aDecoder {
 	if((self = [super initWithCoder:aDecoder])) {
 		[self baseInit];
 	}
 	return self;
 }
 
--(void)refresh {
+- (void)refresh {
 	for(int i = 0; i < _imageViews.count; i++) {
 		UIImageView *imageView =[_imageViews objectAtIndex:i];
 		if(_rating >= i+1) {
@@ -61,18 +61,18 @@
 	}
 }
 
--(void)layoutSubviews {
+- (void)layoutSubviews {
 	[super layoutSubviews];
 	
 	if(_notSelectedImage == nil) return;
 	
 	float desiredImageWidth = (self.frame.size.width - (_leftMargin*2) - (_midMargin*_imageViews.count)) / _imageViews.count;
-	float imageWith = MAX(_minImageSize.width, desiredImageWidth);
+	float imageWidth = MAX(_minImageSize.width, desiredImageWidth);
 	float imageHeight = MAX(_minImageSize.height, self.frame.size.height);
 	
 	for(int i = 0; i < _imageViews.count; i++) {
 		UIImageView *imageView = [_imageViews objectAtIndex:i];
-		CGRect imageFrame = CGRectMake(_leftMargin + i*(_midMargin+imageWith), 0, imageWith, imageHeight);
+		CGRect imageFrame = CGRectMake(_leftMargin + i*(_midMargin+imageWidth), 0, imageWidth, imageHeight);
 		imageView.frame = imageFrame;
 	}
 }
