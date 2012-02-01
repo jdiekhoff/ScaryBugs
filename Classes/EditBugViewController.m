@@ -10,6 +10,7 @@
 #import "ScaryBugDoc.h"
 #import "ScaryBugData.h"
 #import "UIImageExtras.h"
+#import "DSActivityView.h"
 
 @implementation EditBugViewController
 @synthesize bugDoc = _bugDoc;
@@ -17,6 +18,8 @@
 @synthesize imageView = _imageView;
 @synthesize rateView = _rateView;
 @synthesize picker = _picker;
+@synthesize activityView = _activityView;
+@synthesize queue = _queue;
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
@@ -39,6 +42,7 @@
 	_rateView.editable = YES;
 	_rateView.maxRating = 5;
 	_rateView.delegate = self;
+	self.queue = [[[NSOperationQueue alloc] init] autorelease];
 }
 
 // Override to allow orientations other than the default portrait orientation.
@@ -61,6 +65,7 @@
 	self.imageView = nil;
 	self.rateView = nil;
 	
+	self.queue = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -76,6 +81,8 @@
 	_rateView = nil;
 	[_picker release];
 	_picker = nil;
+	[_queue release];
+	_queue = nil;
 	
     [super dealloc];
 }
@@ -106,12 +113,21 @@
 
 - (IBAction)addPictureTapped:(id)sender {
 	if(_picker == nil){
-		self.picker = [[[UIImagePickerController alloc] init] autorelease];
-		_picker.delegate = self;
-		_picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-		_picker.allowsEditing = NO;
+		[DSBezelActivityView newActivityViewForView:self.navigationController.navigationBar.superview withLabel:@"Loading Image Picker..." width:160];
+		[_queue addOperationWithBlock: ^{
+			self.picker = [[[UIImagePickerController alloc] init] autorelease];
+			_picker.delegate = self;
+			_picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+			_picker.allowsEditing = NO;
+			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+				[DSBezelActivityView removeViewAnimated:YES];
+				[self.navigationController presentModalViewController:_picker animated:YES];
+			}];
+		}];
+	} else {
+		[self.navigationController presentModalViewController:_picker animated:YES];
 	}
-	[self.navigationController presentModalViewController:_picker animated:YES];
+
 }
 
 #pragma mark UIImagePickerControllerDelegate
@@ -122,7 +138,19 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediwWithInfo:(NSDictionary *)info {
 	[self dismissModalViewControllerAnimated:YES];
-	 
+	
+	[DSBezelActivityView newActivityViewForView:self.navigationController.navigationBar.superview withLabel:@"Resizing Image..." width:160];
+	[_queue addOperationWithBlock: ^{
+		UIImage *fullImage = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage];
+		UIImage *thumbImage = [fullImage imageByScalingAndCroppingForSize:CGSizeMake(44,44)];
+		[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+			_bugDoc.fullImage = fullImage;
+			_bugDoc.thumbImage = thumbImage;
+			_imageView.image = fullImage;
+			[DSBezelActivityView removeViewAnimated:YES];
+		}];
+	}];
+	
 	 UIImage *fullImage = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage];
 	 UIImage *thumbImage = [fullImage imageByScalingAndCroppingForSize:CGSizeMake(44, 44)];
 	 _bugDoc.fullImage = fullImage;

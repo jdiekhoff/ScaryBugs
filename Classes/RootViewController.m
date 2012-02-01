@@ -26,6 +26,10 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	self.title = @"Scary Bugs";
+	self.navigationItem.leftBarButtonItem = self.editButtonItem;
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc]
+											  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+											   target:self action:@selector(addTapped:)] autorelease];
 }
 
 
@@ -72,7 +76,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _bugs.count;
+	return _bugs.count;
 }
 
 
@@ -106,19 +110,15 @@
 */
 
 
-/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source.
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }   
+		[_bugs removeObjectAtIndex:indexPath.row];
+		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+	}
 }
-*/
+
 
 
 /*
@@ -150,12 +150,24 @@
 	[self.navigationController pushViewController:_editBugViewController animated:YES];
 	
 	/*
-	 <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+	 *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
      // ...
      // Pass the selected object to the new view controller.
 	 [self.navigationController pushViewController:detailViewController animated:YES];
 	 [detailViewController release];
 	 */
+}
+
+- (void)addTapped:(id)sender {
+	ScaryBugDoc	*newDoc = [[[ScaryBugDoc alloc] initWithTitle:@"New Bug" rating:0 thumbImage:nil fullImage:nil]	autorelease];
+	[_bugs addObject:newDoc];
+	
+	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:_bugs.count-1 inSection:0];
+	NSArray *indexPaths = [NSArray arrayWithObject:indexPath];
+	[self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:YES];
+	
+	[self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+	[self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
 }
 
 
