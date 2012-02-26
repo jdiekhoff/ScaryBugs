@@ -96,6 +96,7 @@
 
 - (IBAction)titleFieldValueChanged:(id)sender {
 	_bugDoc.data.title = _titleField.text;
+	[_bugDoc saveData];
 }
 
 #pragma mark UITextFieldDelegate
@@ -109,6 +110,7 @@
 
 - (void)rateView:(RateView *)rateView ratingDidChange:(float)rating {
 	_bugDoc.data.rating = rating;
+	[_bugDoc saveData];
 }
 
 - (IBAction)addPictureTapped:(id)sender {

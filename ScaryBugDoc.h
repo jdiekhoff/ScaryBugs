@@ -14,12 +14,18 @@
 	ScaryBugData *_data;
 	UIImage *_thumbImage;
 	UIImage	*_fullImage;
+	NSString *_docPath;
 }
 
 @property (retain) ScaryBugData *data;
 @property (retain) UIImage *thumbImage;
 @property (retain) UIImage *fullImage;
+@property (copy) NSString *docPath;
 
 - (id)initWithTitle:(NSString*)title rating:(float)rating thumbImage:(UIImage *)thumbImage fullImage:(UIImage *)fullimage;
+- (id)init;
+- (id)initWithDocPath:(NSString *)docPath;
+- (void)saveData;
+- (void)deleteDoc;
 
 @end

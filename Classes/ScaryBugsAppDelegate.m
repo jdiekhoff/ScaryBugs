@@ -10,6 +10,7 @@
 #import "RootViewController.h"
 #import "ScaryBugDoc.h"
 #import	"RootViewController.h"
+#import "ScaryBugDatabase.h"
 
 
 @implementation ScaryBugsAppDelegate
@@ -24,13 +25,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
     // Override point for customization after application launch.
-    ScaryBugDoc *bug1 = [[[ScaryBugDoc alloc] initWithTitle:@"Potato Bug" rating:4 thumbImage:[UIImage imageNamed:@"potatoBugThumb.jpg"] fullImage:[UIImage imageNamed:@"potatoBug.jpg"]] autorelease];
-	ScaryBugDoc *bug2 = [[[ScaryBugDoc alloc] initWithTitle:@"House Centipede" rating:3 thumbImage:[UIImage imageNamed:@"centipedeThumb.jpg"] fullImage:[UIImage imageNamed:@"centipede.jpg"]] autorelease];
-	ScaryBugDoc *bug3 = [[[ScaryBugDoc alloc] initWithTitle:@"Wolf Spider" rating:5 thumbImage:[UIImage imageNamed:@"wolfSpiderThumb.jpg"] fullImage:[UIImage imageNamed:@"wolfSpider.jpg"]] autorelease];
-	ScaryBugDoc *bug4 = [[[ScaryBugDoc alloc] initWithTitle:@"Lady Bug" rating:1 thumbImage:[UIImage imageNamed:@"ladybugThumb.jpg"] fullImage:[UIImage imageNamed:@"ladybug.jpg"]] autorelease];
-	NSMutableArray *bugs = [NSMutableArray arrayWithObjects:bug1, bug2, bug3, bug4, nil];
+    //ScaryBugDoc *bug1 = [[[ScaryBugDoc alloc] initWithTitle:@"Potato Bug" rating:4 thumbImage:[UIImage imageNamed:@"potatoBugThumb.jpg"] fullImage:[UIImage imageNamed:@"potatoBug.jpg"]] autorelease];
+	//ScaryBugDoc *bug2 = [[[ScaryBugDoc alloc] initWithTitle:@"House Centipede" rating:3 thumbImage:[UIImage imageNamed:@"centipedeThumb.jpg"] fullImage:[UIImage imageNamed:@"centipede.jpg"]] autorelease];
+	//ScaryBugDoc *bug3 = [[[ScaryBugDoc alloc] initWithTitle:@"Wolf Spider" rating:5 thumbImage:[UIImage imageNamed:@"wolfSpiderThumb.jpg"] fullImage:[UIImage imageNamed:@"wolfSpider.jpg"]] autorelease];
+	//ScaryBugDoc *bug4 = [[[ScaryBugDoc alloc] initWithTitle:@"Lady Bug" rating:1 thumbImage:[UIImage imageNamed:@"ladybugThumb.jpg"] fullImage:[UIImage imageNamed:@"ladybug.jpg"]] autorelease];
+	//NSMutableArray *bugs = [NSMutableArray arrayWithObjects:bug1, bug2, bug3, bug4, nil];
+	//RootViewController *rootController = (RootViewController *) [navigationController.viewControllers objectAtIndex:0];
+	//rootController.bugs = bugs;
+	
+	NSMutableArray *loadedBugs = [ScaryBugDatabase loadScaryBugDocs];
 	RootViewController *rootController = (RootViewController *) [navigationController.viewControllers objectAtIndex:0];
-	rootController.bugs = bugs;
+	rootController.bugs = loadedBugs;
 	
     // Set the navigation controller as the window's root view controller and display.
     self.window.rootViewController = self.navigationController;
