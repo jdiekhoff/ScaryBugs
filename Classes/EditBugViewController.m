@@ -149,6 +149,7 @@
 			_bugDoc.fullImage = fullImage;
 			_bugDoc.thumbImage = thumbImage;
 			_imageView.image = fullImage;
+			[_bugDoc saveImages];
 			[DSBezelActivityView removeViewAnimated:YES];
 		}];
 	}];

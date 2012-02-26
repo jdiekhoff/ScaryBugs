@@ -27,5 +27,6 @@
 - (id)initWithDocPath:(NSString *)docPath;
 - (void)saveData;
 - (void)deleteDoc;
+- (void)saveImages;
 
 @end
